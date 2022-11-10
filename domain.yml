@@ -1,33 +1,41 @@
-version: "3.1"
+version: '3.1'
 
 intents:
   - greet
-  - goodbye
-  - affirm
-  - deny
-  - mood_great
-  - mood_unhappy
-  - bot_challenge
+  - pedir_tramite
+  - buscar_tramite_form
+
+entities:
+  - palabra_clave
+
+slots:
+  palabras_clave:
+    type: list
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: palabra_clave
+
+  tramite:
+    type: text
+    mappings:
+      - type: custom
+
+forms:
+  buscar_tramite_form:
+    required_slots:
+      - palabras_clave
+      - tramite
 
 responses:
   utter_greet:
-  - text: "Hey! How are you?"
+    - text: 'Hola, soy EVA! ¿En qué te puedo ayudar?'
+  utter_palabras_clave:
+    - text: ¿Qué deseas?
 
-  utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
-
-  utter_did_that_help:
-  - text: "Did that help you?"
-
-  utter_happy:
-  - text: "Great, carry on!"
-
-  utter_goodbye:
-  - text: "Bye"
-
-  utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
+actions:
+  - validate_buscar_tramite_form
+  - utter_greet
 
 session_config:
   session_expiration_time: 60
